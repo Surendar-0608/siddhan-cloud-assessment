@@ -1,8 +1,6 @@
 # siddhan-cloud-assessment
 Cloud Engineer Assessment - Node.js app deployed on AWS EC2 with CI/CD and Monitoring
 
-# Siddhan Cloud Assessment
-
 ## Overview
 Node.js DevOps Dashboard deployed on AWS EC2 
 with automated CI/CD using GitHub Actions.
@@ -73,6 +71,15 @@ terraform apply
 - EC2 t3.micro: Free tier eligible
 - EBS 20GB: ~$2/month
 - Estimated total: ~$2-5/month
+
+## Deliverables
+
+- Simple Node.js application
+- AWS EC2 deployment with public HTTP access
+- IAM role/policy attached (via Terraform)
+- CI/CD pipeline using GitHub Actions
+- README with architecture diagram
+- Terraform IaC Code
 
 ## Git Workflow
 feature/app-setup → develop → main
