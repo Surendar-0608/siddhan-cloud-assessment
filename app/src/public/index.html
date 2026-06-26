@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; }
+        .header { background: #1e293b; padding: 20px; text-align: center; border-bottom: 2px solid #3b82f6; }
+        .header h1 { color: #3b82f6; font-size: 2rem; }
+        .header p { color: #94a3b8; margin-top: 5px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 30px; }
+        .card { background: #1e293b; border-radius: 12px; padding: 25px; border: 1px solid #334155; }
+        .card h3 { color: #94a3b8; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        .card .value { font-size: 2rem; font-weight: bold; color: #3b82f6; }
+        .card .label { color: #64748b; font-size: 0.8rem; margin-top: 5px; }
+        .status-dot { width: 12px; height: 12px; background: #22c55e; border-radius: 50%; display: inline-block; margin-right: 8px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .links { display: flex; gap: 15px; padding: 0 30px 30px; flex-wrap: wrap; }
+        .btn { padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 0.9rem; }
+        .btn-blue { background: #3b82f6; color: white; }
+        .btn-green { background: #22c55e; color: white; }
+        .btn-orange { background: #f97316; color: white; }
+        .footer { text-align: center; padding: 20px; color: #475569; border-top: 1px solid #1e293b; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🚀 DevOps Cloud Dashboard</h1>
+        <p>Siddhan Intelligence — Cloud Engineer Assessment | Surendar D</p>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <h3>System Status</h3>
+            <div class="value"><span class="status-dot"></span>Online</div>
+            <div class="label">All systems operational</div>
+        </div>
+        <div class="card">
+            <h3>Uptime</h3>
+            <div class="value" id="uptime">Loading...</div>
+            <div class="label">Since last deployment</div>
+        </div>
+        <div class="card">
+            <h3>Version</h3>
+            <div class="value">v1.0.0</div>
+            <div class="label">Current release</div>
+        </div>
+        <div class="card">
+            <h3>Environment</h3>
+            <div class="value">Production</div>
+            <div class="label">AWS EC2 — Ubuntu 22.04</div>
+        </div>
+        <div class="card">
+            <h3>Cloud Provider</h3>
+            <div class="value">AWS</div>
+            <div class="label">EC2 t2.micro — ap-south-1</div>
+        </div>
+        <div class="card">
+            <h3>CI/CD Status</h3>
+            <div class="value" style="color: #22c55e;">✅ Active</div>
+            <div class="label">GitHub Actions — Auto Deploy</div>
+        </div>
+        <div class="card">
+            <h3>Monitoring</h3>
+            <div class="value" style="color: #f97316;">📊 Live</div>
+            <div class="label">Prometheus + Grafana</div>
+        </div>
+        <div class="card">
+            <h3>Last Deployed</h3>
+            <div class="value" id="timestamp" style="font-size: 1rem;">Loading...</div>
+            <div class="label">Auto via GitHub Actions</div>
+        </div>
+    </div>
+
+    <div class="links">
+        <a href="/health" class="btn btn-green">🟢 Health Check</a>
+        <a href="/metrics" class="btn btn-blue">📊 Metrics</a>
+        <a href="http://localhost:3001" class="btn btn-orange">📈 Grafana</a>
+    </div>
+
+    <div class="footer">
+        <p>Built with Node.js • Deployed on AWS EC2 • Monitored by Prometheus & Grafana</p>
+        <p style="margin-top: 5px;">Surendar D — Cloud Engineer Assessment</p>
+    </div>
+
+    <script>
+        async function fetchHealth() {
+            try {
+                const res = await fetch('/health');
+                const data = await res.json();
+                document.getElementById('uptime').textContent = 
+                    Math.floor(data.uptime) + 's';
+                document.getElementById('timestamp').textContent = 
+                    new Date(data.timestamp).toLocaleString();
+            } catch (e) {
+                document.getElementById('uptime').textContent = 'N/A';
+            }
+        }
+        fetchHealth();
+        setInterval(fetchHealth, 5000);
+    </script>
+</body>
+</html>
